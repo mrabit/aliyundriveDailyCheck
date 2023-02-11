@@ -6,17 +6,25 @@
 
 const updateAccesssTokenURL = "https://auth.aliyundrive.com/v2/account/token"
 const signinURL = "https://member.aliyundrive.com/v1/activity/sign_in_list"
-const refreshToeknArry = [
-    "",
-    ""
-    ]
+
+const refreshToken = process.env.refreshToken || []
+let refreshTokenArray = []
+
+if (Array.isArray(refreshToken)) refreshTokenArray = refreshToken
+else if (refreshToken.indexOf('&') > -1)
+  refreshTokenArray = refreshToken.split('&')
+else if (refreshToken.indexOf('\n') > -1)
+  refreshTokenArray = refreshToken.split('\n')
+else refreshTokenArray = [refreshToken]
+
+refreshTokenArray = refreshTokenArray.filter(v => v)
 
 const fetch = require("node-fetch")
-const notify = require('./sendNotify');
+// const notify = require('./sendNotify');
 
 
 !(async() => {
-    for (const elem of refreshToeknArry) {
+    for (const elem of refreshTokenArray) {
         
         const queryBody = {
             'grant_type': 'refresh_token',

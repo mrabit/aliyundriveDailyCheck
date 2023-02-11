@@ -1,0 +1,22 @@
+{
+  "name": "autosigninaliyun",
+  "version": "1.0.0",
+  "description": "阿里云盘的自动签到脚本，青龙，js",
+  "main": "autoSignin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrabit/autoSigninAliyun.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrabit/autoSigninAliyun/issues"
+  },
+  "homepage": "https://github.com/mrabit/autoSigninAliyun#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.9"
+  }
+}
