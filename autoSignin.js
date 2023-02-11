@@ -7,8 +7,8 @@
 const updateAccesssTokenURL = "https://auth.aliyundrive.com/v2/account/token"
 const signinURL = "https://member.aliyundrive.com/v1/activity/sign_in_list"
 const refreshToeknArry = [
-    "fbaed8e7638b4175a3e4505131373f2c",
-    "fbf649ceee4f41b99431de6bbc7cb6c1"
+    "",
+    ""
     ]
 
 const fetch = require("node-fetch")
