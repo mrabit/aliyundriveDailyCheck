@@ -1,8 +1,6 @@
-/**
- * @name autoSignin.js
- * @author Anonym-w
- * @version 0.1
- */
+/*
+cron "0 9 * * *" autoSignin.js, tag=阿里云盘签到
+*/
 
 const fetch = require('node-fetch')
 const { initInstance, getEnv, updateCkEnv } = require('./qlApi.js')
