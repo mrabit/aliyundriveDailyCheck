@@ -2,7 +2,7 @@
 cron "0 9 * * *" autoSignin.js, tag=阿里云盘签到
 */
 
-const fetch = require('node-fetch')
+const axios = require('axios')
 const { initInstance, getEnv, updateCkEnv } = require('./qlApi.js')
 const notify = require('./sendNotify')
 
@@ -11,12 +11,12 @@ const signinURL = 'https://member.aliyundrive.com/v1/activity/sign_in_list'
 
 // 使用 refresh_token 更新 access_token
 function updateAccesssToken(queryBody, remarks) {
-  return fetch(updateAccesssTokenURL, {
+  return axios(updateAccesssTokenURL, {
     method: 'POST',
-    body: JSON.stringify(queryBody),
+    data: queryBody,
     headers: { 'Content-Type': 'application/json' }
   })
-    .then(res => res.json())
+    .then(d => d.data)
     .then(d => {
       const errorMessage = [remarks, '更新 access_token 失败']
       const { code, message, nick_name, refresh_token, access_token } = d
@@ -35,15 +35,15 @@ function updateAccesssToken(queryBody, remarks) {
 
 //签到
 function sign_in(queryBody, access_token, remarks) {
-  return fetch(signinURL, {
+  return axios(signinURL, {
     method: 'POST',
-    body: JSON.stringify(queryBody),
+    data: queryBody,
     headers: {
       Authorization: 'Bearer ' + access_token,
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res.json())
+    .then(d => d.data)
     .then(json => {
       const sendMessage = [remarks]
       if (!json.success) {
