@@ -2,8 +2,6 @@
 
 基于 [Anonym-w/autoSigninAliyun](https://github.com/Anonym-w/autoSigninAliyun) 实现的阿里云盘每日签到
 
-![aliyundriveDailyCheck.png](./assets/aliyundriveDailyCheck.png)
-
 ### TODO
 
 - [x] 阿里云盘签到
@@ -42,6 +40,8 @@ ql repo https://github.com/mrabit/aliyundriveDailyCheck.git "autoSignin" "" "qlA
 ```
 
 可自行调整任务执行时间
+
+![aliyundriveDailyCheck.png](./assets/aliyundriveDailyCheck.png)
 
 ### 申明
 
