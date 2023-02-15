@@ -2,6 +2,8 @@
 
 基于 [Anonym-w/autoSigninAliyun](https://github.com/Anonym-w/autoSigninAliyun) 实现的阿里云盘每日签到
 
+![aliyundriveDailyCheck.png](./assets/aliyundriveDailyCheck.png)
+
 ### TODO
 
 - [x] 阿里云盘签到
@@ -12,11 +14,15 @@
 
 #### 第一步：获取 refresh_token
 
-1. 网页登录阿里云盘官网 https://www.aliyundrive.com/drive
-2. 按 F12，进入开发者工具模式，在顶上菜单栏点 Application ，然后在左边菜单找到 Local storage 下面的 https://www.aliyundrive.com 这个域名，点到这个域名会看到有一个 token 选项，再点 token ，就找到 refresh_token 了
-   ![img.png](img.png)
+- 自动获取: 登录[阿里云盘](https://www.aliyundrive.com/drive/)后，控制台粘贴 `JSON.parse(localStorage.token).refresh_token`
+  ![](./assets/refresh_token_1.png)
 
-#### 第二步：添加依赖项
+- 手动获取: 登录[阿里云盘](https://www.aliyundrive.com/drive/)后，可以在开发者工具 ->
+  Application -> Local Storage 中的 `token` 字段中找到。  
+  注意：不是复制整段 JSON 值，而是 JSON 里 `refresh_token` 字段的值，如下图所示红色部分：
+  ![refresh token](./assets/refresh_token_2.png)
+
+#### 第二步：青龙面板添加依赖项
 
 - node-fetch@2
 - axios
