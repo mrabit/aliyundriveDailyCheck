@@ -61,7 +61,9 @@ function sign_in(queryBody, access_token, remarks) {
 
       //   当天签到是否有奖励
       if (currentSignInfo.reward)
-        sendMessage.push(`本次签到获得${currentSignInfo.notice}`)
+        sendMessage.push(
+          `本次签到获得${currentSignInfo.reward.name}${currentSignInfo.reward.description}`
+        )
 
       return sendMessage.join(', ')
     })
