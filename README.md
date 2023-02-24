@@ -1,6 +1,6 @@
 ## 阿里云盘每日签到
 
-基于 [Anonym-w/autoSigninAliyun](https://github.com/Anonym-w/autoSigninAliyun) 实现的阿里云盘每日签到
+基于 Node.js 实现的阿里云盘每日签到
 
 ### TODO
 
@@ -26,9 +26,11 @@
 
 #### 第三步：添加环境变量
 
-- refreshToken: 阿里云盘 refresh_token, 添加多个可支持多账户签到
-- CLIENT_ID: 可选, 用于青龙面板 API
-- CLIENT_SECRET: 可选, 用于青龙面板 API
+| 参数          | 说明                                             |
+| ------------- | ------------------------------------------------ |
+| refreshToken  | 阿里云盘 refresh_token, 添加多个可支持多账户签到 |
+| CLIENT_ID     | 可选项, 用于青龙面板 API 更新 refreshToken 字段  |
+| CLIENT_SECRET | 可选项, 用于青龙面板 API 更新 refreshToken 字段  |
 
 `CLIENT_ID` 和 `CLIENT_SECRET` 可在 `青龙面板 -> 系统设置 -> 应用设置 -> 新建应用` 新增, 用于自动更新环境变量内 `refreshToken` 配置
 
