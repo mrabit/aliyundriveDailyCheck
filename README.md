@@ -6,7 +6,8 @@
 
 - [x] 阿里云盘签到
 - [x] 青龙面板支持
-- ~~[ ] github action 支持~~
+- [ ] 本地运行
+- [ ] ~~github action 支持~~
 
 ### Use 使用
 
