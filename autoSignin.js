@@ -87,9 +87,7 @@ async function getRefreshToken() {
   let instance = null
   try {
     instance = await initInstance()
-  } catch (e) {
-    console.log(e)
-  }
+  } catch (e) {}
 
   let refreshToken = process.env.refreshToken || []
   try {
