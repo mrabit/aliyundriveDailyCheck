@@ -1,6 +1,6 @@
 ## 阿里云盘每日签到
 
-基于 Node.js 实现的阿里云盘每日签到
+> 基于 Node.js 实现的阿里云盘每日签到
 
 ### TODO
 
@@ -27,6 +27,8 @@
 
 #### 第三步：添加环境变量
 
+> `CLIENT_ID` 需添加 `环境变量` 权限
+
 | 参数          | 说明                                             |
 | ------------- | ------------------------------------------------ |
 | refreshToken  | 阿里云盘 refresh_token, 添加多个可支持多账户签到 |
@@ -35,13 +37,22 @@
 
 `CLIENT_ID` 和 `CLIENT_SECRET` 可在 `青龙面板 -> 系统设置 -> 应用设置 -> 新建应用` 新增, 用于自动更新环境变量内 `refreshToken` 配置
 
-#### 第四步：青龙里创建自动任务
+#### 第四步：添加订阅
+
+> 添加订阅后可在定时任务列表发现新增任务, 可自行调整任务执行时间
 
 ```shell
+# 命令/脚本
 ql repo https://github.com/mrabit/aliyundriveDailyCheck.git "autoSignin" "" "qlApi"
 ```
 
-可自行调整任务执行时间
+##### 新版本:
+
+`青龙面板 -> 订阅管理 -> 新建订阅`, 在名称输入框粘贴命令并执行
+
+##### 旧版本:
+
+`青龙面板 -> 定时任务 -> 新建任务` 添加命令并执行
 
 ![aliyundriveDailyCheck.png](./assets/aliyundriveDailyCheck.png)
 
