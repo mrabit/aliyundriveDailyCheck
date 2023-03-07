@@ -125,7 +125,7 @@ async function getRefreshToken() {
       grant_type: 'refresh_token',
       refresh_token: refreshToken.value || refreshToken
     }
-
+    let refresh_token_old = refreshToken.value
     try {
       const { nick_name, refresh_token, access_token } =
         await updateAccesssToken(queryBody, remarks)
@@ -136,12 +136,12 @@ async function getRefreshToken() {
       // 更新环境变量
       instance &&
         (await updateCkEnv(instance, {
-          id: refreshToken.id || refreshToken._id,
-          _id: refreshToken.id || refreshToken._id,
+          _id: refreshToken._id,
           name: refreshToken.name,
           value: refresh_token,
           remarks: refreshToken.remarks || nick_name // 优先存储原有备注信息
         }))
+      console.log("refreshToken，由["+refresh_token_old+"变更为["+refresh_token+"]");
 
       const sendMessage = await sign_in(queryBody, access_token, remarks)
       console.log(sendMessage)
