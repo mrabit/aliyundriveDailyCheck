@@ -133,13 +133,22 @@ async function getRefreshToken() {
         remarks = `${nick_name}(${remarks})`
 
       // 更新环境变量
-      instance &&
-        (await updateCkEnv(instance, {
-          id: refreshToken.id,
+      if (instance) {
+        let params = {
           name: refreshToken.name,
           value: refresh_token,
           remarks: refreshToken.remarks || nick_name // 优先存储原有备注信息
-        }))
+        }
+        // 新版青龙api
+        if (refreshToken.id) {
+          params.id = refreshToken.id
+        }
+        // 旧版青龙api
+        if (refreshToken._id) {
+          params._id = refreshToken._id
+        }
+        await updateCkEnv(instance, params)
+      }
 
       const sendMessage = await sign_in(queryBody, access_token, remarks)
       console.log(sendMessage)
