@@ -9,6 +9,66 @@ const notify = require('./sendNotify')
 const updateAccesssTokenURL = 'https://auth.aliyundrive.com/v2/account/token'
 const signinURL = 'https://member.aliyundrive.com/v1/activity/sign_in_list'
 
+function pauseExecution() {
+  const randomTime = Math.floor(Math.random() * 500000) + 1000; // 生成1000到1100000之间的随机数
+  console.log(`程序将在${randomTime / 1000}秒后继续执行`);
+
+  setTimeout(async () => {
+  const { instance, refreshTokenArray } = await getRefreshToken()
+
+  const message = []
+  let index = 1
+  for await (refreshToken of refreshTokenArray) {
+    let remarks = refreshToken.remarks || `账号${index}`
+    const queryBody = {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken.value || refreshToken
+    }
+    try {
+      const { nick_name, refresh_token, access_token } =
+        await updateAccesssToken(queryBody, remarks)
+
+      if (nick_name && nick_name !== remarks)
+        remarks = `${nick_name}(${remarks})`
+
+      // 更新环境变量
+      if (instance) {
+        let params = {
+          name: refreshToken.name,
+          value: refresh_token,
+          remarks: refreshToken.remarks || nick_name // 优先存储原有备注信息
+        }
+        // 新版青龙api
+        if (refreshToken.id) {
+          params.id = refreshToken.id
+        }
+        // 旧版青龙api
+        if (refreshToken._id) {
+          params._id = refreshToken._id
+        }
+        await updateCkEnv(instance, params)
+      }
+
+      const sendMessage = await sign_in(queryBody, access_token, remarks)
+      console.log(sendMessage)
+      console.log('\n')
+      message.push(sendMessage)
+    } catch (e) {
+      console.log(e)
+      console.log('\n')
+      message.push(e)
+    }
+    index++
+  }
+  await notify.sendNotify(`阿里云盘签到`, message.join('\n'))
+}, randomTime)
+
+}
+
+// 调用函数来测试暂停执行
+pauseExecution();
+
+
 // 使用 refresh_token 更新 access_token
 function updateAccesssToken(queryBody, remarks) {
   const errorMessage = [remarks, '更新 access_token 失败']
@@ -113,53 +173,3 @@ async function getRefreshToken() {
     refreshTokenArray
   }
 }
-
-!(async () => {
-  const { instance, refreshTokenArray } = await getRefreshToken()
-
-  const message = []
-  let index = 1
-  for await (refreshToken of refreshTokenArray) {
-    let remarks = refreshToken.remarks || `账号${index}`
-    const queryBody = {
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken.value || refreshToken
-    }
-    try {
-      const { nick_name, refresh_token, access_token } =
-        await updateAccesssToken(queryBody, remarks)
-
-      if (nick_name && nick_name !== remarks)
-        remarks = `${nick_name}(${remarks})`
-
-      // 更新环境变量
-      if (instance) {
-        let params = {
-          name: refreshToken.name,
-          value: refresh_token,
-          remarks: refreshToken.remarks || nick_name // 优先存储原有备注信息
-        }
-        // 新版青龙api
-        if (refreshToken.id) {
-          params.id = refreshToken.id
-        }
-        // 旧版青龙api
-        if (refreshToken._id) {
-          params._id = refreshToken._id
-        }
-        await updateCkEnv(instance, params)
-      }
-
-      const sendMessage = await sign_in(queryBody, access_token, remarks)
-      console.log(sendMessage)
-      console.log('\n')
-      message.push(sendMessage)
-    } catch (e) {
-      console.log(e)
-      console.log('\n')
-      message.push(e)
-    }
-    index++
-  }
-  await notify.sendNotify(`阿里云盘签到`, message.join('\n'))
-})()
