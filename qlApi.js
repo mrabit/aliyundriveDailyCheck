@@ -84,7 +84,7 @@ function getQLEnvs(instance, searchValue = 'JD_COOKIE') {
         }
       })
       .then(res => {
-        resolve(res.data.data)
+        resolve(res.data.data.filter(v => v.status === 0))
       })
   })
 }
