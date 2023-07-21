@@ -7,7 +7,8 @@
  * @From: https://github.com/whyour/qinglong/issues/1369
  */
 const axios = require('axios')
-const QL_URL = 'http://127.0.0.1:5700'
+const QL_PATH = process.env.QL_PATH?process.env.QL_PATH:''
+const QL_URL = `http://127.0.0.1:5700${QL_PATH}`
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 
