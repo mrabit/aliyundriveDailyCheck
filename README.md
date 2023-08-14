@@ -44,7 +44,7 @@
 
 ```shell
 # 命令/脚本
-ql repo https://github.com/wang-st/aliyundriveDailyCheck.git "autoSignin" "" "qlApi"
+ql repo https://github.com/mrabit/aliyundriveDailyCheck.git "autoSignin" "" "qlApi"
 ```
 
 ##### 新版本:
