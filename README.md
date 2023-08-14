@@ -34,6 +34,7 @@
 | refreshToken  | 阿里云盘 refresh_token, 添加多个可支持多账户签到 |
 | CLIENT_ID     | 可选项, 用于青龙面板 API 更新 refreshToken 字段  |
 | CLIENT_SECRET | 可选项, 用于青龙面板 API 更新 refreshToken 字段  |
+| QL_PATH       | 可选项, 青龙面板path                            |
 
 `CLIENT_ID` 和 `CLIENT_SECRET` 可在 `青龙面板 -> 系统设置 -> 应用设置 -> 新建应用` 新增, 用于自动更新环境变量内 `refreshToken` 配置
 
@@ -43,7 +44,7 @@
 
 ```shell
 # 命令/脚本
-ql repo https://github.com/mrabit/aliyundriveDailyCheck.git "autoSignin" "" "qlApi"
+ql repo https://github.com/wang-st/aliyundriveDailyCheck.git "autoSignin" "" "qlApi"
 ```
 
 ##### 新版本:
