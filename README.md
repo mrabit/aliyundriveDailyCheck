@@ -11,9 +11,13 @@
 
 ### Use 使用
 
-#### 第一步：获取 refresh_token
+#### 第一步：获取 refresh_token 并复制
 
-- 自动获取: 登录[阿里云盘](https://www.aliyundrive.com/drive/)后，控制台粘贴 `JSON.parse(localStorage.token).refresh_token`
+- 自动获取: 登录[阿里云盘](https://www.aliyundrive.com/drive/)后，控制台粘贴
+```javascript
+copy(JSON.parse(localStorage.token).refresh_token); console.log(JSON.parse(localStorage.token).refresh_token);
+```
+`
   ![](./assets/refresh_token_1.png)
 
 - 手动获取: 登录[阿里云盘](https://www.aliyundrive.com/drive/)后，可以在开发者工具 ->
@@ -41,9 +45,7 @@
 #### 第四步：添加订阅
 
 > 添加订阅后可在定时任务列表发现新增任务, 可自行调整任务执行时间
-
 ```shell
-# 命令/脚本
 ql repo https://github.com/mrabit/aliyundriveDailyCheck.git "autoSignin" "" "qlApi"
 ```
 
