@@ -11,7 +11,7 @@
 
 ### Use 使用
 
-#### 第一步：获取 refresh_token并复制
+#### 第一步：获取 refresh_token 并复制
 
 - 自动获取: 登录[阿里云盘](https://www.aliyundrive.com/drive/)后，控制台粘贴
 ```javascript
