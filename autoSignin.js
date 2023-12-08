@@ -5,6 +5,8 @@ cron "0 9 * * *" autoSignin.js, tag=阿里云盘签到
 const axios = require('axios')
 const { initInstance, getEnv, updateCkEnv } = require('./qlApi.js')
 const notify = require('./sendNotify')
+// 环境变量 只在月末领取奖励
+const getRewardLastDay = process.env.getRewardLastDay || false;
 
 const updateAccesssTokenURL = 'https://auth.aliyundrive.com/v2/account/token'
 const signinURL =
@@ -72,26 +74,30 @@ function sign_in(access_token, remarks) {
         v => v.status === 'normal' && !v.isReward
       )
 
-      if (rewards.length) {
-        for await (reward of rewards) {
-          const signInDay = reward.day
-          try {
-            const rewardInfo = await getReward(access_token, signInDay)
-            sendMessage.push(
-              `第${signInDay}天奖励领取成功: 获得${rewardInfo.name || ''}${
-                rewardInfo.description || ''
-              }`
-            )
-          } catch (e) {
-            sendMessage.push(`第${signInDay}天奖励领取失败:`, e)
+      if(!getRewardLastDay || isLastDayOfMonth()){
+        if (rewards.length) {
+          for await (reward of rewards) {
+            const signInDay = reward.day
+            try {
+              const rewardInfo = await getReward(access_token, signInDay)
+              sendMessage.push(
+                `第${signInDay}天奖励领取成功: 获得${rewardInfo.name || ''}${
+                  rewardInfo.description || ''
+                }`
+              )
+            } catch (e) {
+              sendMessage.push(`第${signInDay}天奖励领取失败:`, e)
+            }
           }
+        } else if (currentSignInfo.isReward) {
+          sendMessage.push(
+            `今日签到获得${currentSignInfo.reward.name || ''}${
+              currentSignInfo.reward.description || ''
+            }`
+          )
         }
-      } else if (currentSignInfo.isReward) {
-        sendMessage.push(
-          `今日签到获得${currentSignInfo.reward.name || ''}${
-            currentSignInfo.reward.description || ''
-          }`
-        )
+      } else {
+        sendMessage.push('不是当月最后一天，不领取奖励')
       }
 
       return sendMessage.join(', ')
@@ -205,3 +211,19 @@ async function getRefreshToken() {
   }
   await notify.sendNotify(`阿里云盘签到`, message.join('\n'))
 })()
+
+// 调用函数判断今天是否是北京时间当月最后一天
+function isLastDayOfMonth() {
+  var today = new Date(); // 获取当前日期
+  var year = today.getFullYear(); // 当前年份
+  var month = today.getUTCMonth(); // 当前月份，使用getUTCMonth()获取UTC时间的月份
+  var lastDayOfMonth = new Date(year, month + 1, 0); // 获取当月的最后一天
+
+  // 转换为北京时间
+  var beijingOffset = 8 * 60; // 北京时间偏移量为+8小时
+  var localOffset = today.getTimezoneOffset(); // 当前时区偏移量
+  var offsetDiff = (beijingOffset - localOffset) * 60 * 1000; // 时间偏移量差值
+  lastDayOfMonth.setTime(lastDayOfMonth.getTime() + offsetDiff); // 加上偏移量差值
+
+  return today.getDate() === lastDayOfMonth.getDate();
+}
